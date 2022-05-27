@@ -9,7 +9,7 @@ find_package(GTest REQUIRED)
 #include(GoogleTest)
 #add_library(gtest)
 
-add_executable(e-t2 main.cpp)
+add_executable(e-t2 main.cpp MinhaListaEncadeada.h ListaEncadeadaAbstrata.h Elemento.h excecoes.h)
 
 #target_link_libraries(e-t2 Qt${QT_VERSION_MAJOR}::Core)
 target_link_libraries(e-t2 GTest::GTest GTest::Main)

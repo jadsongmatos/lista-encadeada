@@ -25,15 +25,22 @@ class MinhaListaEncadeada: public ListaEncadeadaAbstrata<T>
     //Lembre-se de implementar o construtor e destrutor da classe
 public:
     std::size_t tamanho() const {
-        return 0;
+
+        return this->_tamanho;
     };
 
     bool vazia() const{
-        return false;
+        return this->_tamanho != 0 ? false : true;
     };
 
     std::size_t posicao(T dado) const{
-        return 0;
+        std::size_t i = 0;
+        Elemento<T>* tmp = this->_primeiro;
+        while(tmp->dado != dado){
+            tmp = tmp->proximo;
+            i++;
+        }
+        return i;
     };
 
     bool contem(T dado) const{
@@ -41,7 +48,17 @@ public:
     };
 
     void inserirNoInicio(T dado){
+        Elemento<T>* tmp;
+        tmp->dado = dado;
 
+        if(this->_primeiro == nullptr){
+            this->_primeiro = tmp;
+        } else {
+            tmp->proximo = this->_primeiro;
+            this->_primeiro = tmp;
+        }
+
+        this->_tamanho++;
     };
 
     void inserir(std::size_t posicao, T dado){
@@ -72,7 +89,7 @@ public:
 
     };
 
-    MinhaListaEncadeada(){
+    ~MinhaListaEncadeada(){
 
     };
 };
