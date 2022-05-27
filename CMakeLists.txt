@@ -1,16 +1,33 @@
-cmake_minimum_required(VERSION 3.14)
+# Created by and for Qt Creator This file was created for editing the project sources only.
+# You may attempt to use it for building too, by modifying this file here.
 
-project(e-t2 LANGUAGES CXX)
+cmake_minimum_required(VERSION 3.5)
+project(t2)
 
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(GTest REQUIRED)
-#include(GoogleTest)
-#add_library(gtest)
 
-add_executable(e-t2 main.cpp MinhaListaEncadeada.h ListaEncadeadaAbstrata.h Elemento.h excecoes.h)
+include_directories(
+    .
+)
 
-#target_link_libraries(e-t2 Qt${QT_VERSION_MAJOR}::Core)
-target_link_libraries(e-t2 GTest::GTest GTest::Main)
+set (SRCS
+    Elemento.h
+    excecoes.h
+    ListaEncadeadaAbstrata.h
+    main.cpp
+    MinhaListaEncadeada.h
+    README.md
+)
+
+
+add_executable(${CMAKE_PROJECT_NAME} ${SRCS})
+
+target_link_libraries(${CMAKE_PROJECT_NAME} GTest::GTest GTest::Main)
 
