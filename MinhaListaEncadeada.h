@@ -61,8 +61,8 @@ public:
     };
 
     void inserirNoInicio(T dado){
-        //Elemento<T>* tmp = new Elemento<T>(dado,this->_primeiro);
-        Elemento<T>* tmp = (Elemento<T>*)malloc(sizeof(Elemento<T>));
+        Elemento<T>* tmp = new Elemento<T>(dado,this->_primeiro);
+        //Elemento<T>* tmp = (Elemento<T>*)malloc(sizeof(Elemento<T>));
 
         tmp->dado = dado;
 
@@ -108,7 +108,8 @@ public:
     };
 
     void inserirNoFim(T dado){
-        Elemento<T>* tmp = (Elemento<T>*)malloc(sizeof(Elemento<T>));
+        Elemento<T>* tmp = new Elemento<T>(dado,nullptr);
+        //Elemento<T>* tmp = (Elemento<T>*)malloc(sizeof(Elemento<T>));
         tmp->dado = dado;
 
 
