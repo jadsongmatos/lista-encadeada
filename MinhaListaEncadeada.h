@@ -15,7 +15,7 @@
 
 /**
  * @brief Uma lista encadeada de dados.
- * 
+ *
  * @tparam T O tipo dos dados armazenados na lista.
  */
 template<typename T>
@@ -25,7 +25,6 @@ class MinhaListaEncadeada: public ListaEncadeadaAbstrata<T>
     //Lembre-se de implementar o construtor e destrutor da classe
 public:
     std::size_t tamanho() const {
-
         return this->_tamanho;
     };
 
@@ -33,29 +32,36 @@ public:
         return this->_tamanho != 0 ? false : true;
     };
 
-    std::size_t posicao(T dado) const{
-        std::size_t i = 0;
-        Elemento<T>* tmp = this->_primeiro;
-        while(tmp->dado != dado){
-            tmp = tmp->proximo;
-            i++;
+    std::size_t posicao(T dado) const {
+        if(this->_tamanho == 0){
+           throw ExcecaoListaEncadeadaVazia();
+        }else {
+            std::size_t i = 0;
+            Elemento<T>* tmp = this->_primeiro;
+            while(tmp->dado != dado){
+                tmp = tmp->proximo;
+                i++;
+            }
+            return i;
         }
-        return i;
     };
 
     bool contem(T dado) const{
         bool result = false;
-        Elemento<T>* tmp = this->_primeiro;
-        while(tmp->dado != dado){
-            tmp = tmp->proximo;
-        }
-        if(tmp->dado == dado){
-            result = true;
+        if(this->_tamanho != 0){
+            Elemento<T>* tmp = this->_primeiro;
+            while(tmp->dado != dado){
+                tmp = tmp->proximo;
+            }
+            if(tmp->dado == dado){
+                result = true;
+            }
         }
         return result;
     };
 
     void inserirNoInicio(T dado){
+        //Elemento<T>* tmp = new Elemento<T>(dado,this->_primeiro);
         Elemento<T>* tmp = (Elemento<T>*)malloc(sizeof(Elemento<T>));
 
         tmp->dado = dado;
@@ -71,25 +77,33 @@ public:
     };
 
     void inserir(std::size_t posicao, T dado){
-        if(this->_tamanho == 0){
-            this->inserirNoInicio(dado);
-        } else if(this->_tamanho == posicao){
-            this->inserirNoFim(dado);
+        if(this->_tamanho < posicao){
+            throw ExcecaoPosicaoInvalida();
         } else {
-            std::size_t i = 0;
-            Elemento<T>* tmp = (Elemento<T>*)malloc(sizeof(Elemento<T>));
-            Elemento<T>* previous;
-            Elemento<T>* next = this->_primeiro;
-            for(std::size_t i = 0; i <= posicao && i <= this->_tamanho; i++){
-                if(i < posicao){
-                    previous = next->proximo;
+            if(this->_tamanho == 0){
+                throw ExcecaoListaEncadeadaVazia();
+            } else {
+               if(posicao == 0){
+                    this->inserirNoInicio(dado);
+                } else if(this->_tamanho == posicao){
+                    this->inserirNoFim(dado);
+                } else {
+                    std::size_t i = 0;
+                    Elemento<T>* tmp = (Elemento<T>*)malloc(sizeof(Elemento<T>));
+                    Elemento<T>* previous;
+                    Elemento<T>* next = this->_primeiro;
+                    for(std::size_t i = 0; i <= posicao && i <= this->_tamanho; i++){
+                        if(i < posicao){
+                            previous = next->proximo;
+                        }
+                        next = next->proximo;
+                    }
+                    tmp->proximo = next;
+                    tmp->dado = dado;
+                    previous->proximo = tmp;
+                    this->_tamanho++;
                 }
-                next = next->proximo;
             }
-            tmp->proximo = next;
-            tmp->dado = dado;
-            previous->proximo = tmp;
-            this->_tamanho++;
         }
     };
 
