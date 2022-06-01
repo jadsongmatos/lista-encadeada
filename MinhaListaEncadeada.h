@@ -47,17 +47,17 @@ public:
     };
 
     bool contem(T dado) const{
-        bool result = false;
         if(this->_tamanho != 0){
             Elemento<T>* tmp = this->_primeiro;
-            while(tmp->dado != dado){
-                tmp = tmp->proximo;
-            }
-            if(tmp->dado == dado){
-                result = true;
+            for(std::size_t i = 0; i < this->_tamanho;i++){
+                if(tmp->dado == dado){
+                   return true;
+                } else {
+                   tmp = tmp->proximo;
+                }
             }
         }
-        return result;
+        return false;
     };
 
     void inserirNoInicio(T dado){
@@ -88,8 +88,7 @@ public:
                 } else if(this->_tamanho == posicao){
                     this->inserirNoFim(dado);
                 } else {
-                    std::size_t i = 0;
-                    Elemento<T>* tmp = (Elemento<T>*)malloc(sizeof(Elemento<T>));
+                    Elemento<T>* tmp = new Elemento<T>(dado,nullptr);
                     Elemento<T>* previous;
                     Elemento<T>* next = this->_primeiro;
                     for(std::size_t i = 0; i <= posicao && i <= this->_tamanho; i++){
@@ -99,7 +98,6 @@ public:
                         next = next->proximo;
                     }
                     tmp->proximo = next;
-                    tmp->dado = dado;
                     previous->proximo = tmp;
                     this->_tamanho++;
                 }
@@ -126,11 +124,46 @@ public:
     };
 
     T removerDoInicio(){
-        T result;
-        return result;
+        if(this->_tamanho == 0){
+            throw ExcecaoListaEncadeadaVazia();
+        } else {
+            Elemento<T>* tmp = this->_primeiro;
+            this->_primeiro = this->_primeiro->proximo;
+            T result = tmp->dado;
+            delete tmp;
+            this->_tamanho--;
+            return result;
+        }
     };
 
     T removerDe(std::size_t posicao){
+        if(this->_tamanho < posicao){
+            throw ExcecaoPosicaoInvalida();
+        } else {
+            if(this->_tamanho == 0){
+                throw ExcecaoListaEncadeadaVazia();
+            } else {
+               if(posicao == 0){
+                    this->removerDoInicio();
+                } else if(this->_tamanho == posicao){
+                    this->removerDoFim();
+                } else {
+                    Elemento<T>* previous;
+                    Elemento<T>* next = this->_primeiro;
+                    for(std::size_t i = 0; i <= posicao && i <= this->_tamanho; i++){
+                        if(i < posicao){
+                            previous = next->proximo;
+                        }
+                        next = next->proximo;
+                    }
+                    delete previous->proximo;
+                    previous->proximo = next;
+
+                    this->_tamanho--;
+                }
+            }
+        }
+
         T result;
         return result;
     };
