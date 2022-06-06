@@ -136,7 +136,28 @@ public:
         }
     };
 
+    T removerDoFim(){
+        T result;
+        if(this->_tamanho == 0){
+            throw ExcecaoListaEncadeadaVazia();
+        } else {
+            Elemento<T>* tmp = this->_primeiro;
+            for(std::size_t i = 2; i < this->_tamanho; i++){
+                tmp = tmp->proximo;
+            }
+
+
+            result = tmp->proximo->dado;
+            delete tmp->proximo;
+            tmp->proximo = nullptr;
+            this->_tamanho--;
+
+            return result;
+        }
+    };
+
     T removerDe(std::size_t posicao){
+        T result;
         if(this->_tamanho < posicao){
             throw ExcecaoPosicaoInvalida();
         } else {
@@ -144,34 +165,26 @@ public:
                 throw ExcecaoListaEncadeadaVazia();
             } else {
                if(posicao == 0){
-                    this->removerDoInicio();
+                   result = this->removerDoInicio();
                 } else if(this->_tamanho == posicao){
-                    this->removerDoFim();
+                   result = this->removerDoFim();
                 } else {
                     Elemento<T>* previous;
                     Elemento<T>* next = this->_primeiro;
-                    for(std::size_t i = 0; i <= posicao && i <= this->_tamanho; i++){
-                        if(i < posicao){
-                            previous = next->proximo;
-                        }
+                    for(std::size_t i = 1; i < posicao; i++){
                         next = next->proximo;
                     }
-                    delete previous->proximo;
-                    previous->proximo = next;
+                    previous = next->proximo;
+                    result = next->proximo->dado;
+                    next->proximo = previous->proximo;
+
+                    delete previous;
 
                     this->_tamanho--;
                 }
             }
         }
-
-        T result;
         return result;
-    };
-
-    T removerDoFim(){
-        T result;
-        return result;
-
     };
 
     void remover(T dado){
