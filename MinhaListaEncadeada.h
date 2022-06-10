@@ -38,11 +38,15 @@ public:
         }else {
             std::size_t i = 0;
             Elemento<T>* tmp = this->_primeiro;
-            while(tmp->dado != dado){
-                tmp = tmp->proximo;
-                i++;
+            for(std::size_t ind = 0; ind < this->_tamanho;ind++){
+                if(tmp->dado != dado){
+                    tmp = tmp->proximo;
+                    i++;
+                } else {
+                    return i;
+                }
             }
-            return i;
+            throw ExcecaoDadoInexistente();
         }
     };
 
@@ -80,7 +84,7 @@ public:
         if(this->_tamanho < posicao){
             throw ExcecaoPosicaoInvalida();
         } else {
-            if(this->_tamanho == 0){
+            if(this->_primeiro == nullptr && posicao != 0){
                 throw ExcecaoListaEncadeadaVazia();
             } else {
                if(posicao == 0){
