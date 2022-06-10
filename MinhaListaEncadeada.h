@@ -146,10 +146,15 @@ public:
                 tmp = tmp->proximo;
             }
 
-
-            result = tmp->proximo->dado;
-            delete tmp->proximo;
-            tmp->proximo = nullptr;
+            if(tmp->proximo == nullptr){
+                result = tmp->dado;
+                delete tmp;
+                this->_primeiro->proximo = nullptr;
+            } else {
+                result = tmp->proximo->dado;
+                delete tmp->proximo;
+                tmp->proximo = nullptr;
+            }
             this->_tamanho--;
 
             return result;
@@ -158,7 +163,7 @@ public:
 
     T removerDe(std::size_t posicao){
         T result;
-        if(this->_tamanho < posicao){
+        if(this->_tamanho <= posicao){
             throw ExcecaoPosicaoInvalida();
         } else {
             if(this->_tamanho == 0){
@@ -188,11 +193,39 @@ public:
     };
 
     void remover(T dado){
-
+        if(this->_tamanho == 0){
+            throw ExcecaoListaEncadeadaVazia();
+        } else {
+            if(this->_tamanho == 1){
+                this->removerDoInicio();
+            } else {
+                if(this->_primeiro->dado == dado){
+                    this->removerDoInicio();
+                } else {
+                    Elemento<T>* tmp = this->_primeiro->proximo;
+                    std::size_t i = 2;
+                    while(tmp->dado != dado && tmp->proximo != nullptr){
+                        tmp = tmp->proximo;
+                        i++;
+                    }
+                    if(i == this->_tamanho){
+                        throw ExcecaoDadoInexistente();
+                    } else {
+                        i--;
+                        removerDe(i);
+                    }
+                }
+            }
+        }
     };
 
     ~MinhaListaEncadeada(){
-
+        if(this->_tamanho != 0){
+            std::size_t size = this->_tamanho;
+            for(std::size_t i = 0; i < size; i++){
+                removerDoInicio();
+            }
+        }
     };
 };
 
