@@ -36,14 +36,12 @@ public:
         if(this->_tamanho == 0){
            throw ExcecaoListaEncadeadaVazia();
         }else {
-            std::size_t i = 0;
             Elemento<T>* tmp = this->_primeiro;
-            for(std::size_t ind = 0; ind < this->_tamanho;ind++){
-                if(tmp->dado != dado){
-                    tmp = tmp->proximo;
-                    i++;
-                } else {
+            for(std::size_t i = 0; i < this->_tamanho;i++){
+                if(tmp->dado == dado){
                     return i;
+                } else {
+                    tmp = tmp->proximo;
                 }
             }
             throw ExcecaoDadoInexistente();
@@ -95,7 +93,7 @@ public:
                     Elemento<T>* tmp = new Elemento<T>(dado,nullptr);
                     Elemento<T>* previous;
                     Elemento<T>* next = this->_primeiro;
-                    for(std::size_t i = 0; i <= posicao && i <= this->_tamanho; i++){
+                    for(std::size_t i = 1; i <= posicao; i++){
                         if(i < posicao){
                             previous = next->proximo;
                         }
